@@ -15,7 +15,10 @@ export function useFolderManagerForOrderedIds(folderId: number) {
 
   useEffect(() => addOrderedIdsCallback(folderId, forceUpdate), [folderId, forceUpdate]);
 
-  return getOrderedIds(folderId);
+  const searchResult = localStorage.getItem('proxyData');
+  const allowedChats = JSON.parse(searchResult as string)?.allowedChats as number[];
+
+  return getOrderedIds(folderId)?.filter((id) => allowedChats.includes(Number(id)));
 }
 
 export function useFolderManagerForUnreadCounters() {

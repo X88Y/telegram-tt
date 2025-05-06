@@ -184,43 +184,13 @@ const LeftMain: FC<OwnProps> = ({
         shouldSkipTransition={shouldSkipTransition}
         isClosingSearch={isClosingSearch}
       />
-      <Transition
-        name={shouldSkipTransition ? 'none' : 'zoomFade'}
-        renderCount={TRANSITION_RENDER_COUNT}
-        activeKey={content}
-        shouldCleanup
-        cleanupExceptionKey={LeftColumnContent.ChatList}
-        shouldWrap
-        wrapExceptionKey={LeftColumnContent.ChatList}
-      >
-        {(isActive) => {
-          switch (content) {
-            case LeftColumnContent.ChatList:
-              return (
-                <ChatFolders
-                  shouldHideFolderTabs={isForumPanelVisible}
-                  onSettingsScreenSelect={onSettingsScreenSelect}
-                  onLeftColumnContentChange={onContentChange}
-                  foldersDispatch={foldersDispatch}
-                  isForumPanelOpen={isForumPanelVisible}
-                />
-              );
-            case LeftColumnContent.GlobalSearch:
-              return (
-                <LeftSearch
-                  searchQuery={searchQuery}
-                  searchDate={searchDate}
-                  isActive={isActive}
-                  onReset={onReset}
-                />
-              );
-            case LeftColumnContent.Contacts:
-              return <ContactList filter={contactsFilter} isActive={isActive} onReset={onReset} />;
-            default:
-              return undefined;
-          }
-        }}
-      </Transition>
+      <ChatFolders
+        shouldHideFolderTabs={isForumPanelVisible}
+        onSettingsScreenSelect={onSettingsScreenSelect}
+        onLeftColumnContentChange={onContentChange}
+        foldersDispatch={foldersDispatch}
+        isForumPanelOpen={isForumPanelVisible}
+      />
       {shouldRenderUpdateButton && (
         <Button
           fluid

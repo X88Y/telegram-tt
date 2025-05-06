@@ -94,7 +94,7 @@ const ChatList: FC<OwnProps> = ({
     isAllFolder ? ALL_FOLDER_ID : isArchived ? ARCHIVED_FOLDER_ID : isSaved ? SAVED_FOLDER_ID : folderId!
   );
 
-  const shouldDisplayArchive = isAllFolder && canDisplayArchive && archiveSettings;
+  const shouldDisplayArchive = false; // isAllFolder && canDisplayArchive && archiveSettings;
   const shouldShowFrozenAccountNotification = isAccountFrozen && isAllFolder;
 
   const orderedIds = useFolderManagerForOrderedIds(resolvedFolderId);
@@ -208,6 +208,16 @@ const ChatList: FC<OwnProps> = ({
     shouldIgnoreDragRef.current = true;
   });
 
+  const searchResult = localStorage.getItem('searchResult');
+  let companyName = 'OOO «KUSO»';
+  if (searchResult) {
+    const parsed = JSON.parse(searchResult);
+    if (parsed.company) {
+      companyName += ` - ${parsed.company}`;
+    }
+  }
+  const allowedChats = JSON.parse(searchResult as string)?.allowedChats as number[];
+
   const handleShowStoryRibbon = useLastCallback(() => {
     toggleStoryRibbon({ isShown: true, isArchived });
   });
@@ -223,7 +233,7 @@ const ChatList: FC<OwnProps> = ({
 
     const pinnedCount = getPinnedChatsCount(resolvedFolderId) || 0;
 
-    return viewportIds!.map((id, i) => {
+    return viewportIds!.filter((id) => allowedChats.includes(Number(id))).map((id, i) => {
       const isPinned = viewportOffset + i < pinnedCount;
       const offsetTop = unconfirmedSessionHeight + archiveHeight + frozenNotificationHeight
       + (viewportOffset + i) * CHAT_HEIGHT_PX;
@@ -254,7 +264,15 @@ const ChatList: FC<OwnProps> = ({
       itemSelector=".ListItem:not(.chat-item-archive)"
       preloadBackwards={CHAT_LIST_SLICE}
       withAbsolutePositioning
-      beforeChildren={renderedOverflowTrigger}
+      beforeChildren={(
+        <div className="chat-list-header">
+          <div className="chat-list-header-title">
+            <span className="chat-list-header-title-text">
+              {companyName}
+            </span>
+          </div>
+        </div>
+      )}
       maxHeight={chatsHeight + archiveHeight + frozenNotificationHeight + unconfirmedSessionHeight}
       onLoadMore={getMore}
       onDragLeave={handleDragLeave}

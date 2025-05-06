@@ -74,6 +74,16 @@
   }
 }
 
+.chat-list-header {
+  position: relative;
+  overflow-x: hidden;
+  padding-top: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
 .animated-close-icon {
   position: absolute;
   transform: rotate(-45deg);

@@ -255,7 +255,7 @@ const LeftMainHeader: FC<OwnProps & StateProps> = ({
     <div className="LeftMainHeader">
       <div id="LeftMainHeader" className="left-header" ref={headerRef}>
         {oldLang.isRtl && <div className="DropdownMenuFiller" />}
-        <DropdownMenu
+        {/* <DropdownMenu
           trigger={MainButton}
           footer={`${APP_NAME} ${versionString}`}
           className={buildClassName(
@@ -276,7 +276,7 @@ const LeftMainHeader: FC<OwnProps & StateProps> = ({
             onBotMenuOpened={markBotMenuOpen}
             onBotMenuClosed={unmarkBotMenuOpen}
           />
-        </DropdownMenu>
+        </DropdownMenu> */}
         <SearchInput
           inputId="telegram-search-input"
           resultsItemSelector=".LeftSearch .ListItem-button"
@@ -298,9 +298,6 @@ const LeftMainHeader: FC<OwnProps & StateProps> = ({
           onSpinnerClick={connectionStatusPosition === 'minimized' ? toggleConnectionStatus : undefined}
         >
           {searchContent}
-          <StoryToggler
-            canShow={withStoryToggler}
-          />
         </SearchInput>
         {isCurrentUserPremium && <StatusButton />}
         {hasPasscode && (

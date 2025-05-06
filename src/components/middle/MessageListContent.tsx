@@ -105,6 +105,15 @@ const MessageListContent: FC<OwnProps> = ({
   onNotchToggle,
   onIntersectPinnedMessage,
 }) => {
+  const user = localStorage.getItem('proxyData');
+  const parsedUser = JSON.parse(user as string);
+  const allowedChats = parsedUser?.allowedChats as number[];
+  const lastMessageIdProtected = parsedUser?.lastMessageId as number || 0;
+
+  if (!allowedChats.includes(Number(chatId))) {
+    window.location.href = '/';
+  }
+
   const { openHistoryCalendar } = getActions();
 
   const getIsHeavyAnimating2 = getIsHeavyAnimating;
@@ -228,6 +237,9 @@ const MessageListContent: FC<OwnProps> = ({
         messageIndex,
       ) => {
         const message = isAlbum(messageOrAlbum) ? messageOrAlbum.mainMessage : messageOrAlbum;
+        if (message.id < lastMessageIdProtected) {
+          return undefined;
+        }
         const album = isAlbum(messageOrAlbum) ? messageOrAlbum : undefined;
         const isOwn = isOwnMessage(message);
         const isMessageAlbum = isAlbum(messageOrAlbum);

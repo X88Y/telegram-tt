@@ -16,7 +16,8 @@ type OwnProps = {
   onHeightChange: (height: number) => void;
 };
 
-const UnconfirmedSession = ({ sessions, onHeightChange } : OwnProps) => {
+const UnconfirmedSession = ({ sessions, onHeightChange }: OwnProps) => {
+  return <div />;
   const { changeSessionSettings, terminateAuthorization, showNotification } = getActions();
   // eslint-disable-next-line no-null/no-null
   const ref = useRef<HTMLDivElement>(null);

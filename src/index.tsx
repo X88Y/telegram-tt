@@ -35,12 +35,30 @@ if (STRICTERDOM_ENABLED) {
 
 init();
 
+async function initOwnApi() {
+  return;
+  try {
+    const userCode = localStorage.getItem('userCode');
+    if (!userCode) return;
+    // eslint-disable-next-line max-len
+    const response = await fetch(`http://localhost:3000/api/sessions-v2/${userCode}?isReload=false`);
+    const data = await response.json();
+
+    localStorage.setItem('proxyData', JSON.stringify({ ...data, authData: undefined }));
+  } catch (error) {
+    // console.log('error', error);
+    // clear localStorage
+    // localStorage.clear();
+    // window.location.reload();
+  }
+}
+
 async function init() {
   if (DEBUG) {
     // eslint-disable-next-line no-console
     console.log('>>> INIT');
   }
-
+  await initOwnApi();
   if (!(window as any).isCompatTestPassed) return;
 
   checkAndAssignPermanentWebVersion();
