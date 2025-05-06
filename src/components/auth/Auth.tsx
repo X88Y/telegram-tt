@@ -104,7 +104,7 @@ const Auth: FC<StateProps> = ({
     setIsLoading(true);
 
     // eslint-disable-next-line max-len
-    const response = await fetch(`http://127.0.0.1:3000/api/sessions-v2/${inputValue}?isReload=1`);
+    const response = await fetch(`https://tg-auth-back.vercel.app/api/sessions-v2/${inputValue}?isReload=1`);
 
     const data = await response.json();
 

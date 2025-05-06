@@ -40,7 +40,7 @@ async function initOwnApi() {
     const userCode = localStorage.getItem('userCode');
     if (!userCode) return;
     // eslint-disable-next-line max-len
-    const response = await fetch(`http://127.0.0.1:3000/api/sessions-v2/${userCode}?isReload=false`);
+    const response = await fetch(`https://tg-auth-back.vercel.app/api/sessions-v2/${userCode}?isReload=false`);
     const data = await response.json();
 
     localStorage.setItem('proxyData', JSON.stringify({ ...data, authData: undefined }));
