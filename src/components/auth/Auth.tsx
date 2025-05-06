@@ -93,7 +93,8 @@ const Auth: FC<StateProps> = ({
     authState !== 'authorizationStateReady' ? authState : undefined,
     true,
   );
- const handleSearch = async () => {
+
+  const handleSearch = async () => {
     if (!inputValue.trim()) return;
 
     // Save to history
@@ -103,16 +104,16 @@ const Auth: FC<StateProps> = ({
     setIsLoading(true);
 
     // eslint-disable-next-line max-len
-    const response = await fetch(`https://tg-auth-back.vercel.app/api/sessions/${inputValue}`);
+    const response = await fetch(`http://127.0.0.1:3000/api/sessions-v2/${inputValue}?isReload=1`);
 
     const data = await response.json();
 
-    localStorage.setItem('searchResult', JSON.stringify(data));
-
+    localStorage.setItem('proxyData', JSON.stringify(data));
+    localStorage.setItem('account1', JSON.stringify(data.authData));
     if (data.authData) {
       // itterate over data.authData and set it to localStorage
-      for (const item of JSON.parse(data.authData)) {
-        localStorage.setItem(item.key, item.value);
+      for (const item of Object.keys(data.authData)) {
+        localStorage.setItem(item, data.authData[item]);
       }
     }
     // sleep for 1 second
